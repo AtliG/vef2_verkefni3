@@ -4,9 +4,12 @@
   "description": "[Kynning í fyrirlestri](https://www.youtube.com/watch?v=1kRJBE040oY).",
   "main": ".eslintrc.js",
   "scripts": {
-    "dev": "nodemon ./src/app.js",
+    "sass:build": "node-sass --source-map-embed ./styles/styles.scss ./public/styles.css",
+    "sass:watch": "node-sass --source-map-embed --watch ./styles/styles.scss ./public/styles.css",
+    "nodemon": "nodemon ./src/app.js",
+    "dev": "concurrently npm:nodemon npm:sass:*",
     "test": "echo \"Error: no test specified\" && exit 1",
-		"start": "node ./src/app.js"
+    "start": "node ./src/app.js"
   },
   "repository": {
     "type": "git",
@@ -20,6 +23,7 @@
   },
   "homepage": "https://github.com/AtliG/vef2-2021-v2#readme",
   "dependencies": {
+    "concurrently": "^5.3.0",
     "dotenv": "^8.2.0",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
@@ -30,6 +34,8 @@
     "eslint": "^7.19.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.22.1",
-    "nodemon": "^2.0.7"
+    "node-sass": "^5.0.0",
+    "nodemon": "^2.0.7",
+    "stylelint": "^13.10.0"
   }
 }

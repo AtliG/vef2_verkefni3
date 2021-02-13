@@ -1,51 +1,78 @@
 <%- include('header') -%>
 
-<h1> Undirskriftalisti </h1>
+<header class="header">
+	<h1 class="header__title"> Undirskriftalisti </h1>
+</header>
 
+<div class="form">
 <form method="post">
-	<div>
-		<label for="name"> Nafn*</label>
-		<input type="text" name="name" id="name" value="<%= name %>">
+	<div class="form__row">
+		<div class="form__col">
+			<label class="form__col__label" for="name"> Nafn*</label>
+		</div>
+		<div class="form__col">
+				<input class="form__col__input" type="text" name="name" id="name" value="<%= name %>">
+		</div>
 	</div>
-	<div>
-		<label for="nationalId"> Kennitala*</label>
-		<input type="text" name="nationalId" id="nationalId" value="<%= nationalId %>">
+	<div class="form__row ">
+		<div class="form__col">
+			<label class="form__col__label" for="nationalId"> Kennitala*</label>
+		</div>
+		<div class="form__col">
+			<input class="form__col__input" type="text" name="nationalId" id="nationalId" value="<%= nationalId %>">
+		</div>
 	</div>
-	<div>
-		<label for="comment"> Athugasemd</label>
-		<input type="text" name="comment" id="comment" value="<%= comment %>">
+	<div class="form__row ">
+		<div class="form__col">
+			<label class="form__col__label" for="comment"> Athugasemd</label>
+		</div>
+		<div class="form__col">
+			<input class="form__col__input" type="text" name="comment" id="comment" value="<%= comment %>">
+		</div>
 	</div>
 
-	<div>
-		<input type="checkbox" name="anonymous" id="anonymous" <%= anonymous ? "checked" : "" %>>
-		<label for="anonymous"> Ekki birta nafn á lista </label>
+	<div class="form__row">
+		<div class="form__row__checkbox">
+			<input type="checkbox" name="anonymous" id="anonymous" <%= anonymous ? "checked" : "" %>>
+			<label for="anonymous"> Ekki birta nafn á lista </label>
+		</div>
 	</div>
-
-	<button>Skrifa undir</button>
+	<div class="form__row">
+		<div class="form__row__button">
+			<button>Skrifa undir</button>
+		</div>
+	</div>
 </form>
 
 <% if(errorMessages.length > 0) { %>
-	<h2> Villur við undirskrift </h2> 
-	<ul>
+<div class="errors">
+	<h2 class="errors__header"> Villur við undirskrift </h2> 
+	<ul class="errors__list">
 		<% errorMessages.forEach((msg) => { %>
 			<li><%= msg %></li>
 		<% }); %>
 	</ul>
 <% } %>
+</div>
+</div>
 
 <table>
+<thead>
 <tr>
-	<th>Dags</th>
-	<th>Nafn</th>
-	<th>Athugasemd</th>
-<tr>
+	<th width="15%">Dags</th>
+	<th width="15%">Nafn</th>
+	<th width="70%">Athugasemd</th>
+</tr>
+</thead>
+<tbody>
 <% signatures.forEach((signature) => { %>
 <tr>
-	<td> <%= signature.date %> </td>
-	<td> <%= signature.name %> </td>
-	<td> <%= signature.comment %> </td>
+	<td width="15%"> <%= signature.date %> </td>
+	<td width="15%"> <%= signature.name %> </td>
+	<td width="70%"> <%= signature.comment %> </td>
 </tr>
 <% }); %>
+</tbody>
 </table>
 
 <%- include('footer') -%>
