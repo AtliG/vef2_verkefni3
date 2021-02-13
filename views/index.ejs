@@ -1,0 +1,51 @@
+<%- include('header') -%>
+
+<h1> Undirskriftalisti </h1>
+
+<form method="post">
+	<div>
+		<label for="name"> Nafn*</label>
+		<input type="text" name="name" id="name" value="<%= name %>">
+	</div>
+	<div>
+		<label for="nationalId"> Kennitala*</label>
+		<input type="text" name="nationalId" id="nationalId" value="<%= nationalId %>">
+	</div>
+	<div>
+		<label for="comment"> Athugasemd</label>
+		<input type="text" name="comment" id="comment" value="<%= comment %>">
+	</div>
+
+	<div>
+		<input type="checkbox" name="anonymous" id="anonymous" <%= anonymous ? "checked" : "" %>>
+		<label for="anonymous"> Ekki birta nafn á lista </label>
+	</div>
+
+	<button>Skrifa undir</button>
+</form>
+
+<% if(errorMessages.length > 0) { %>
+	<h2> Villur við undirskrift </h2> 
+	<ul>
+		<% errorMessages.forEach((msg) => { %>
+			<li><%= msg %></li>
+		<% }); %>
+	</ul>
+<% } %>
+
+<table>
+<tr>
+	<th>Dags</th>
+	<th>Nafn</th>
+	<th>Athugasemd</th>
+<tr>
+<% signatures.forEach((signature) => { %>
+<tr>
+	<td> <%= signature.date %> </td>
+	<td> <%= signature.name %> </td>
+	<td> <%= signature.comment %> </td>
+</tr>
+<% }); %>
+</table>
+
+<%- include('footer') -%>
