@@ -12,7 +12,12 @@ if (!connectionString) {
   process.exit(1);
 }
 
-const pool = new pg.Pool({ connectionString });
+const pool = new pg.Pool({
+  connectionString,
+  ssl: {
+    rejectUnauthorized: false,
+  },
+});
 
 pool.on('error', (err) => {
   console.error('Unexpected error on idle client', err);
@@ -27,11 +32,10 @@ async function query(s, values = []) {
     return result;
   } catch (err) {
     console.error(err);
+    throw err;
   } finally {
     client.release();
   }
-
-  return pool.end();
 }
 
 export async function insert(data) {
