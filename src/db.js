@@ -32,7 +32,6 @@ async function query(s, values = []) {
     return result;
   } catch (err) {
     console.error(err);
-    throw err;
   } finally {
     client.release();
   }
