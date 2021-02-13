@@ -24,7 +24,7 @@ pool.on('error', (err) => {
   process.exit(-1);
 });
 
-async function query(s, values = []) {
+async function query(s, values = []) { // eslint-disable-line
   const client = await pool.connect();
 
   try {

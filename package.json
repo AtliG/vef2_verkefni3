@@ -4,11 +4,14 @@
   "description": "[Kynning í fyrirlestri](https://www.youtube.com/watch?v=1kRJBE040oY).",
   "main": ".eslintrc.js",
   "scripts": {
+    "test": "concurrently npm:lint:*",
+    "lint:eslint": "eslint ./src",
+    "lint:stylelint": "stylelint ./styles/*.scss --syntax scss",
     "sass:build": "node-sass --source-map-embed ./styles/styles.scss ./public/styles.css",
     "sass:watch": "node-sass --source-map-embed --watch ./styles/styles.scss ./public/styles.css",
     "nodemon": "nodemon ./src/app.js",
     "dev": "concurrently npm:nodemon npm:sass:*",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "setup": "psql vef2-2021-v2 < ./sql/schema.sql",
     "start": "node ./src/app.js"
   },
   "repository": {
@@ -36,6 +39,8 @@
     "eslint-plugin-import": "^2.22.1",
     "node-sass": "^5.0.0",
     "nodemon": "^2.0.7",
-    "stylelint": "^13.10.0"
+    "stylelint": "^13.10.0",
+    "stylelint-config-sass-guidelines": "^8.0.0",
+    "stylelint-config-standard": "^20.0.0"
   }
 }

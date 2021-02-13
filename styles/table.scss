@@ -1,20 +1,20 @@
-@import './config.scss';
+@import './config';
 
 table {
-	max-width: $max-width;
-	width: 100%;
-
-	table-layout: fixed;
-	border-collapse: collapse;
+  border-collapse: collapse;
+  max-width: $max-width;
+  table-layout: fixed;
+  width: 100%;
 }
 
 tbody {
-	vertical-align: middle;
+  vertical-align: middle;
 }
 
-th, td {
-	border: 1px solid #999;
+th,
+td {
+  border: 1px solid #999;
   padding: 0.5rem;
   text-align: left;
-	word-wrap: break-word;
+  word-wrap: break-word;
 }
