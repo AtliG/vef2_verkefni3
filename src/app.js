@@ -11,6 +11,7 @@ const {
 const app = express();
 
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static('public'));
 
 // TODO setja upp rest af virkni!
 app.set('views', './views');

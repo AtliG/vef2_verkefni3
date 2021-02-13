@@ -1,0 +1,48 @@
+@import './config';
+
+html { /* stylelint-disable-line */
+  box-sizing: border-box;
+}
+
+*, *:before, *:after { /* stylelint-disable-line */
+  box-sizing: inherit;
+  margin: 0;
+  padding: 0;
+}
+
+html { /* stylelint-disable-line */
+  font-family: $font-main;
+  font-size: 16px;
+  line-height: 1.5;
+  margin-left: $gutter;
+  margin-right: $gutter;
+
+  @media (min-width: $max-width) {
+    margin: 0;
+  }
+}
+
+img { /* stylelint-disable-line */
+  max-width: 100%;
+}
+
+body { /* stylelint-disable-line */
+  background-color: #f0e1a6;
+  color: #333;
+  overflow-x: hidden;
+}
+
+main { /* stylelint-disable-line */
+  margin: 0 auto;
+  max-width: $max-width;
+}
+
+footer { /* stylelint-disable-line */
+  margin-bottom: 1em;
+  text-align: center;
+}
+
+@import './header';
+@import './form.scss';
+@import './table.scss';
+@import './errors.scss';
