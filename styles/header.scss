@@ -1,0 +1,21 @@
+@import './config';
+
+.header {
+  margin: $gutter auto;
+  max-width: $max-width;
+
+  &__title {
+    font-size: 2.5rem;
+    margin-bottom: $gutter;
+    text-align: center;
+    word-wrap: break-word;
+
+    @media (min-width: $max-width / 2) {
+      font-size: 3rem;
+    }
+  }
+
+  &__subtitle {
+    text-align: center;
+  }
+}
