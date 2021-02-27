@@ -14,9 +14,9 @@ if (!connectionString) {
 
 const pool = new pg.Pool({
   connectionString,
-  ssl: {
-    rejectUnauthorized: false,
-  },
+  // ssl: {
+  // rejectUnauthorized: false,
+  // },
 });
 
 pool.on('error', (err) => {
@@ -24,7 +24,7 @@ pool.on('error', (err) => {
   process.exit(-1);
 });
 
-async function query(s, values = []) { // eslint-disable-line
+export async function query(s, values = []) { // eslint-disable-line
   const client = await pool.connect();
 
   try {
@@ -53,8 +53,12 @@ export async function insert(data) {
   return query(q, values);
 }
 
-export async function select() {
-  const q = 'SELECT name, comment, signed FROM signatures';
+export async function select(offset = 0, limit = 50) {
+  const q = 'SELECT name, comment, signed FROM signatures ORDER BY signed DESC OFFSET $1 LIMIT $2';
 
-  return query(q);
+  return query(q, [offset, limit]);
+}
+
+export async function end() {
+  await pool.end();
 }

@@ -1,7 +1,14 @@
 import express from 'express';
+import dotenv from 'dotenv';
 import { body, validationResult } from 'express-validator';
 import { insert, select } from './db.js';
 import { getDate } from './utils.js';
+
+dotenv.config();
+
+const {
+  PORT: port = 3000,
+} = process.env;
 
 // TODO skráningar virkni
 export const router = express.Router();
@@ -12,9 +19,9 @@ function catchErrors(fn) {
   return (req, res, next) => fn(req, res, next).catch(next);
 }
 
-async function getSignatures() {
+async function getSignatures(offset = 0, limit = 50) {
   const signatures = [];
-  const result = await select();
+  const result = await select(offset, limit);
 
   result.rows.forEach((row) => {
     const {
@@ -34,6 +41,10 @@ async function getSignatures() {
 }
 
 async function signature(req, res, next) {
+  let { offset = 0, limit = 50 } = req.query;
+  offset = Number(offset);
+  limit = Number(limit);
+
   const data = {
     name: '',
     nationalId: '',
@@ -43,15 +54,36 @@ async function signature(req, res, next) {
     signatures: [],
   };
 
+  const result = {
+    _links: {
+      self: {
+        href: `http://localhost:${port}/?offset=${offset}&limit=${limit}`,
+      },
+    },
+    data,
+  };
+
   try {
-    const signatures = await getSignatures();
+    const signatures = await getSignatures(offset, limit);
     data.signatures = signatures;
   } catch (err) {
     console.error(err);
     return next();
   }
 
-  return res.render('index', data);
+  if (offset > 0) {
+    result._links.prev = {
+      href: `http://localhost:${port}/?offset=${offset - limit}&limit=${limit}`,
+    };
+  }
+
+  if (data.signatures.length <= limit) {
+    result._links.next = {
+      href: `http://localhost:${port}/?offset=${Number(offset) + limit}&limit=${limit}`,
+    };
+  }
+
+  return res.render('index', result);
 }
 
 async function signaturePost(req, res) {
