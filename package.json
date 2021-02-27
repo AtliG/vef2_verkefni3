@@ -26,14 +26,20 @@
   },
   "homepage": "https://github.com/AtliG/vef2-2021-v2#readme",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "concurrently": "^5.3.0",
     "dotenv": "^8.2.0",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
+    "express-session": "^1.17.1",
     "express-validator": "^6.9.2",
+    "faker": "^5.4.0",
+    "passport": "^0.4.1",
+    "passport-local": "^1.0.0",
     "pg": "^8.5.1"
   },
   "devDependencies": {
+    "coc-eslint": "^1.4.5",
     "eslint": "^7.19.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.22.1",

@@ -18,5 +18,8 @@ module.exports = {
 
     // Leyfum console.info, warn og error
     'no-console': ['error', { allow: ['info', 'warn', 'error'] }],
+
+    'no-underscore-dangle': 0,
+    'no-await-in-loop': 0,
   },
 };
