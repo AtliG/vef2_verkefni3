@@ -11,7 +11,7 @@
     "sass:watch": "node-sass --source-map-embed --watch ./styles/styles.scss ./public/styles.css",
     "nodemon": "nodemon ./src/app.js",
     "dev": "concurrently npm:nodemon npm:sass:*",
-    "setup": "psql vef2-2021-v2 < ./sql/schema.sql",
+    "setup": "node ./src/createdb.js",
     "start": "node ./src/app.js"
   },
   "repository": {

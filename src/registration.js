@@ -1,14 +1,10 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import { body, validationResult } from 'express-validator';
-import { insert, select } from './db.js';
+import { insert, select, numOfSignatures } from './db.js';
 import { getDate } from './utils.js';
 
 dotenv.config();
-
-const {
-  PORT: port = 3000,
-} = process.env;
 
 // TODO skráningar virkni
 export const router = express.Router();
@@ -19,7 +15,7 @@ function catchErrors(fn) {
   return (req, res, next) => fn(req, res, next).catch(next);
 }
 
-async function getSignatures(offset = 0, limit = 50) {
+export async function getSignatures(offset = 0, limit = 50) {
   const signatures = [];
   const result = await select(offset, limit);
 
@@ -28,13 +24,16 @@ async function getSignatures(offset = 0, limit = 50) {
       name = '',
       comment = '',
       signed = '',
+      id = '',
     } = row;
 
     const str = JSON.stringify(signed);
 
     const date = getDate(str);
 
-    signatures.push({ name, comment, date });
+    signatures.push({
+      name, comment, date, id,
+    });
   });
 
   return signatures;
@@ -52,15 +51,9 @@ async function signature(req, res, next) {
     anonymous: '',
     errorMessages: [],
     signatures: [],
-  };
-
-  const result = {
-    _links: {
-      self: {
-        href: `http://localhost:${port}/?offset=${offset}&limit=${limit}`,
-      },
-    },
-    data,
+    offset,
+    limit,
+    numSigs: null,
   };
 
   try {
@@ -71,19 +64,14 @@ async function signature(req, res, next) {
     return next();
   }
 
-  if (offset > 0) {
-    result._links.prev = {
-      href: `http://localhost:${port}/?offset=${offset - limit}&limit=${limit}`,
-    };
+  try {
+    const result = await numOfSignatures();
+    data.numSigs = result.count;
+  } catch (err) {
+    console.error(err);
+    return next();
   }
-
-  if (data.signatures.length <= limit) {
-    result._links.next = {
-      href: `http://localhost:${port}/?offset=${Number(offset) + limit}&limit=${limit}`,
-    };
-  }
-
-  return res.render('index', result);
+  return res.render('index', data);
 }
 
 async function signaturePost(req, res) {

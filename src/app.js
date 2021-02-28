@@ -4,6 +4,7 @@ import passport from 'passport';
 import { Strategy } from 'passport-local';
 import dotenv from 'dotenv';
 import { router } from './registration.js';
+import { router as adminRouter } from './admin.js';
 
 import { findByUsername, findById, comparePasswords } from './login.js';
 
@@ -22,14 +23,10 @@ if (!sessionSecret || !databaseUrl) {
   process.exit(1);
 }
 
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static('public'));
-
 app.use(session({
   secret: sessionSecret,
   resave: false,
   saveUninitialized: false,
-  maxAge: 20 * 1000,
 }));
 
 async function strat(username, password, done) {
@@ -42,7 +39,7 @@ async function strat(username, password, done) {
 
     const result = await comparePasswords(password, user.password);
 
-    return done(null, result);
+    return done(null, result ? user : null);
   } catch (err) {
     console.error(err);
     return done(err);
@@ -63,6 +60,9 @@ passport.deserializeUser(async (id, done) => {
     done(err);
   }
 });
+
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static('public'));
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -104,11 +104,21 @@ app.post(
   },
 );
 
-app.get('/admin', ensureLoggedIn, (req, res) => {
-  res.render('admin');
+app.use((req, res, next) => {
+  if (req.isAuthenticated()) {
+    res.locals.user = req.user;
+  }
+
+  return next();
+});
+
+app.get('/logout', (req, res) => {
+  req.logout();
+  res.redirect('/');
 });
 
 app.use('/', router);
+app.use('/admin', ensureLoggedIn, adminRouter);
 
 function notFoundHandler(req, res, next) { // eslint-disable-line
   const title = 'Síða finnst ekki';

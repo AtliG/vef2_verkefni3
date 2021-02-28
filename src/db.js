@@ -54,9 +54,38 @@ export async function insert(data) {
 }
 
 export async function select(offset = 0, limit = 50) {
-  const q = 'SELECT name, comment, signed FROM signatures ORDER BY signed DESC OFFSET $1 LIMIT $2';
+  const q = 'SELECT name, comment, signed, id FROM signatures ORDER BY signed DESC OFFSET $1 LIMIT $2';
 
   return query(q, [offset, limit]);
+}
+
+export async function numOfSignatures() {
+  const q = 'SELECT COUNT(*) AS count FROM signatures';
+
+  try {
+    const result = await query(q);
+
+    if (result && result.rows) {
+      return result.rows[0];
+    }
+  } catch (err) {
+    console.error('Error counting signatures');
+  }
+
+  return null;
+}
+
+export async function deleteRow(id) {
+  const q = 'DELETE FROM signatures WHERE id = $1';
+
+  try {
+    const result = await query(q, [id]);
+    return result;
+  } catch (err) {
+    console.error('Error deleting from database');
+  }
+
+  return null;
 }
 
 export async function end() {

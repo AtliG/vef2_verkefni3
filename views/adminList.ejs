@@ -1,0 +1,51 @@
+<section>
+<div>
+	<h2> Undirskriftir </h2>
+	<p> Fjöldi undirskrifta <%= numSigs %> </p>
+</div>
+
+<% if (signatures.length === 0) { %>
+	<p> Engar undirskriftir </p>
+	<% } else { %>
+
+<table cellpadding="0">
+<thead>
+<tr>
+	<th>Dags</th>
+	<th>Nafn</th>
+	<th>Athugasemd</th>
+	<th>Eyða</th>
+</tr>
+</thead>
+<tbody>
+<% signatures.forEach((signature) => { %>
+<tr>
+<td width="15%"> <%= signature.date %> </td>
+	<td width="15%"> <%= signature.name %> </td>
+	<td width="70%"> <%= signature.comment %> </td>
+	<td> 
+		<form method="post", action="/admin/delete">
+			<input hidden name="id" id="id" value=<%= signature.id %>>
+			<button>Eyða</button>
+		</form>
+	</td>
+	
+</tr>
+<% }); %>
+</tbody>
+</table>
+<% } %>
+</section>
+
+<section>
+<% if(offset > 0) { %>
+	<a href="/?offset=<%= offset - limit%>&limit=<%= limit %>">Fyrri síða</a>
+<% } %>
+<p> Síða <%= (offset)/50 + 1 %> af <%= Math.ceil(numSigs/50) %> </p>
+<% if(signatures.length < limit) { %>
+	<a href="/?offset=<%= offset + limit%>&limit=<%= limit %>">Næsta síða</a>
+<% } %>
+
+</section>
+
+

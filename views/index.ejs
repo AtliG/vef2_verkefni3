@@ -11,7 +11,7 @@
 			<label class="form__label" for="name"> Nafn*</label>
 		</div>
 		<div class="form__col">
-				<input type="text" name="name" id="name" value="<%= data.name %>">
+				<input type="text" name="name" id="name" value="<%= name %>">
 		</div>
 	</div>
 	<div class="form__row ">
@@ -19,7 +19,7 @@
 			<label class="form__label" for="nationalId"> Kennitala*</label>
 		</div>
 		<div class="form__col">
-			<input type="text" name="nationalId" id="nationalId" value="<%= data.nationalId %>">
+			<input type="text" name="nationalId" id="nationalId" value="<%= nationalId %>">
 		</div>
 	</div>
 	<div class="form__row ">
@@ -27,13 +27,13 @@
 			<label class="form__label" for="comment"> Athugasemd</label>
 		</div>
 		<div class="form__col">
-			<input type="text" name="comment" id="comment" value="<%= data.comment %>">
+			<input type="text" name="comment" id="comment" value="<%= comment %>">
 		</div>
 	</div>
 
 	<div class="form__row">
 		<div class="form__row__checkbox">
-			<input type="checkbox" name="anonymous" id="anonymous" <%= data.anonymous ? "checked" : "" %>>
+			<input type="checkbox" name="anonymous" id="anonymous" <%= anonymous ? "checked" : "" %>>
 			<label for="anonymous"> Ekki birta nafn á lista </label>
 		</div>
 	</div>
@@ -44,11 +44,11 @@
 	</div>
 </form>
 
-<% if(data.errorMessages.length > 0) { %>
+<% if(errorMessages.length > 0) { %>
 <div class="errors">
 	<h2 class="errors__header"> Villur við undirskrift </h2> 
 	<ul class="errors__list">
-		<% data.errorMessages.forEach((msg) => { %>
+		<% errorMessages.forEach((msg) => { %>
 			<li><%= msg %></li>
 		<% }); %>
 	</ul>
@@ -56,36 +56,6 @@
 </div>
 </div>
 
-<% if (data.signatures.length === 0) { %>
-	<p> Engar undirskriftir </p>
-	<% } else { %>
-
-<table>
-<thead>
-<tr>
-	<th width="15%">Dags</th>
-	<th width="15%">Nafn</th>
-	<th width="70%">Athugasemd</th>
-</tr>
-</thead>
-<tbody>
-<% data.signatures.forEach((signature) => { %>
-<tr>
-	<td width="15%"> <%= signature.date %> </td>
-	<td width="15%"> <%= signature.name %> </td>
-	<td width="70%"> <%= signature.comment %> </td>
-</tr>
-<% }); %>
-</tbody>
-</table>
-<% } %>
-
-<section>
-<% if(_links.prev) { %>
-	<a href="<%= _links.prev.href %>"> Prev </a>
-<% } %>
-<a href="<%= _links.next.href %>"> Next </a>
-
-</section>
+<%- include('list') -%>
 
 <%- include('footer') -%>

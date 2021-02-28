@@ -4,4 +4,9 @@
 	<h1 class="header__title"> Undirskriftalisti </h1>
 </header>
 
+<p> Innskráður sem: <b><%= user.username %></b></p>
+
+<a href='/logout'> Skrá út </a>
+
+<%- include('adminList') -%>
 <%- include('footer') -%>

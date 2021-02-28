@@ -2,28 +2,35 @@ import { readFile } from 'fs/promises';
 import faker from 'faker';
 import dotenv from 'dotenv';
 import { query, end } from './db.js';
-import { createUser } from './login.js';
 
 dotenv.config();
 
 const schemaFile = './sql/schema.sql';
 
 async function mock(num) {
-  const q = 'INSERT INTO signatures (name, nationalId, comment, anonymous) VALUES ($1, $2, $3, $4)';
+  const q = 'INSERT INTO signatures (name, nationalId, comment, anonymous, signed) VALUES ($1, $2, $3, $4, $5)';
 
   for (let i = 0; i < num; i += 1) {
-    const name = faker.name.findName();
-    const nationalId = faker.phone.phoneNumber('##########');
-    const comment = faker.lorem.sentence();
+    let name = faker.name.findName();
+    const nationalId = Math.floor(Math.random() * 10000000000);
+    let comment = '';
     let anonymous = false;
+    const signed = faker.date.between('2021-02-13', '2021-02-27');
+
+    const comm = Math.random();
+
+    if (comm < 0.5) {
+      comment = faker.lorem.sentence();
+    }
 
     const anon = Math.random();
 
-    if (anon < 0.3) {
+    if (anon < 0.5) {
       anonymous = true;
+      name = 'Nafnlaust';
     }
 
-    await query(q, [name, nationalId, comment, anonymous]);
+    await query(q, [name, nationalId, comment, anonymous, signed]);
   }
 }
 
@@ -35,8 +42,6 @@ async function create() {
   console.info('Schema created');
 
   await mock(500);
-
-  await createUser('admin', 'pass');
 
   await end();
 }

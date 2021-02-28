@@ -12,3 +12,5 @@ CREATE TABLE IF NOT EXISTS users(
 	username character varying(255) not null,
 	password character varying(255) not null
 );
+
+INSERT INTO users (username, password) VALUES ('admin', '$2b$11$rxtwBJNwa.nx/VIFAweZ4uls.YITc3sZiUVwsf1m3XsnM7A6iIcSO');
