@@ -1,5 +1,20 @@
 # Vefforritun 2, 2021, verkefni 3
 
+Byggt á eigin útfærslu á [verkefni 2](https://github.com/AtliG/vef2-2021-v2)
+
+Keyrt með:
+
+```bash
+npm install
+createdb vef2-2021-v3
+# setja rétt DATABASE_URL í .env
+# setja eitthvað secret í .env
+node ./src/createdb.js # eða npm run setup
+npm run dev
+```
+ [Heroku hlekkur](https://atlig-vef2-2021-v3.herokuapp.com/)
+
+
 Framhald af [verkefni 2](https://github.com/vefforritun/vef2-2021-v2).
 
 [Vídeó yfirferð](https://youtu.be/GW-mbrG5dEs).
